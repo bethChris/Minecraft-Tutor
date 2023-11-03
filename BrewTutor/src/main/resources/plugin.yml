@@ -1,0 +1,11 @@
+name: BrewTutor
+version: '${version}'
+main: me.bethanyaryan.brewtutor.BrewTutor
+api-version: '1.20'
+authors: [Bethany, Aryan]
+description: A brewing tutor.
+
+commands:
+  BrewTutor:
+    description: Toggles the BrewTutor plugin
+    usage: /brewtutor
