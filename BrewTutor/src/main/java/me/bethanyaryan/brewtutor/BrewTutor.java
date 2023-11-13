@@ -9,7 +9,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -19,6 +23,7 @@ public final class BrewTutor extends JavaPlugin implements Listener {
     public final ArrayList<Player> CurrentlyInTutor = new ArrayList<Player>();
     public final ArrayList<StudentModel> SavedTutorData = new ArrayList<StudentModel>();
     public Location brewingStandLocation;
+    public Plugin plugin;
     @Override
     public void onEnable() {
         System.out.println("[BrewTutor] has been enabled!");
@@ -26,6 +31,7 @@ public final class BrewTutor extends JavaPlugin implements Listener {
         this.getCommand("BrewTutor").setExecutor(commandListener);
         Objects.requireNonNull(this.getCommand("BrewTutor")).setExecutor(new CommandBrewTutor());
         getServer().getPluginManager().registerEvents(this, this);
+        this.plugin = this;
     }
 
     //Toggles the brew tutor based on if the player is in the tutor or not already
@@ -61,7 +67,7 @@ public final class BrewTutor extends JavaPlugin implements Listener {
             model = new StudentModel(player);
         }
 
-        //send them over to the main pedagocial loop. Loop will use each players data to make decisions.
+        //send them over to the main pedagogical loop. Loop will use each players data to make decisions.
 
     }
     public void end(){
@@ -100,6 +106,13 @@ public final class BrewTutor extends JavaPlugin implements Listener {
             // The player clicked on a brewing stand
             Player player = event.getPlayer();
             player.sendMessage(ChatColor.GREEN + "You clicked on a brewing stand!");
+
+            Task task = new Task(player, this.plugin);
+            ItemStack stack = new ItemStack(Material.POTION);
+            PotionMeta thing = (PotionMeta)stack.getItemMeta();
+            thing.setBasePotionType(PotionType.AWKWARD);
+            stack.setItemMeta(thing);
+            task.checkConditionMet(stack);
         }
     }
     @Override

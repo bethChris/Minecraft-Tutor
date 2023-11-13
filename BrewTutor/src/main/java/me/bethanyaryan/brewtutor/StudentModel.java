@@ -34,6 +34,10 @@ public class StudentModel {
         this.hintCount += 1;
     }
 
+    public void resetHintCount() {
+        this.hintCount = 0;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this.getClass() != obj.getClass())
