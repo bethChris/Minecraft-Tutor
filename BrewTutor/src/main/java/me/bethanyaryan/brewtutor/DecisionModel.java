@@ -24,7 +24,7 @@ public class DecisionModel {
                 Player player = sm.getPlayer();
 //                Bukkit.broadcastMessage(sm.getPlayer().getDisplayName() + " is in the tutor!");
                 if (sm.waitingForPrompt){
-                    player.sendMessage(ChatColor.DARK_PURPLE + "Witch: " + plugin.taskPrompts.get(sm.getQuestion()));
+                    player.sendMessage(ChatColor.DARK_PURPLE + "Witch: " + sm.getQuestion());
                     sm.waitingForPrompt = false;
                 }
 

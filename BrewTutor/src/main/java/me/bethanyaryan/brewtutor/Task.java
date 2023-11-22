@@ -18,7 +18,7 @@ public class Task {
     private final String[] hints;
     private final PotionType potionType;
     private final Plugin plugin;
-    private final KnowledgeComponents[] kc;
+    public final KnowledgeComponents[] kc;
 
     public Task(Player player, String prompt, String[] hints, PotionType potionType, Plugin plugin, KnowledgeComponents[] kc) {
         this.player = player;
@@ -28,7 +28,30 @@ public class Task {
         this.plugin = plugin;
         this.kc = kc;
 
-        this.player.sendMessage(ChatColor.DARK_BLUE + this.prompt);
+//        this.player.sendMessage(ChatColor.DARK_BLUE + this.prompt);
+    }
+
+    // copy is a template Task created in the Constants class
+    public Task(Task copy, Player player, Plugin plugin) {
+        this.player = player;
+        this.prompt = copy.prompt;
+        this.hints = copy.hints;
+        this.potionType = copy.potionType;
+        this.plugin = plugin;
+        this.kc = copy.kc;
+
+//        this.player.sendMessage(ChatColor.DARK_BLUE + this.prompt);
+    }
+
+    // Constructor called by the Constants class
+    public Task(String prompt, String[] hints, PotionType potionType, KnowledgeComponents[] kc) {
+        this.prompt = prompt;
+        this.hints = hints;
+        this.potionType = potionType;
+        this.kc = kc;
+
+        this.plugin = null;
+        this.player = null;
     }
 
     // Test constructor
@@ -39,12 +62,12 @@ public class Task {
         this.plugin = plugin;
         this.prompt = "Test Prompt";
         this.hints = new String[]{"hint 1", "hint 2", "hint 3", "hint 4"};
-        this.kc = new KnowledgeComponents[]{new KnowledgeComponents("awkward")};
+        this.kc = new KnowledgeComponents[]{new KnowledgeComponents(KNOWLEDGE_COMPONENTS.AWKWARD)};
     }
 
     // @Parameter submission : The potion the player created
-    public void checkConditionMet(ItemStack submission) {
-        if (!(submission.getType() == Material.POTION)) { return; }
+    public boolean checkConditionMet(ItemStack submission) {
+        if (!(submission.getType() == Material.POTION)) { return false; }
 
         PotionMeta potion = (PotionMeta)submission.getItemMeta();
         assert potion != null;
@@ -52,11 +75,14 @@ public class Task {
             this.player.sendMessage(ChatColor.GREEN + "Well Done!");
             // Currently disabled because firework damages player
 //            this.shootFirework();
+            return true;
         }
+
+        return false;
     }
 
     public void nextHint(int hintNum) {
-        this.player.sendMessage(ChatColor.GREEN + hints[hintNum-1]);
+        this.player.sendMessage(ChatColor.AQUA + hints[hintNum-1]);
     }
 
     // Shoots off a firework on the player when task is successfully completed
@@ -74,5 +100,10 @@ public class Task {
         fm.setPower(0);
         f.setFireworkMeta(fm);
         f.detonate();
+    }
+
+    @Override
+    public String toString(){
+        return this.prompt;
     }
 }

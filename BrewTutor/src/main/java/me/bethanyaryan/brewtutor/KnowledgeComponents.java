@@ -1,15 +1,22 @@
 package me.bethanyaryan.brewtutor;
 
 public class KnowledgeComponents {
-    final String name;
-    double masteryLevel;
+    private KNOWLEDGE_COMPONENTS name = null;
+    private double masteryLevel;
     boolean[] successes = new boolean[10];
-    public KnowledgeComponents(String name) {
+
+    public KnowledgeComponents(KNOWLEDGE_COMPONENTS name) {
         this.name = name;
         this.masteryLevel = 0.25;
     }
 
-    private void checkMastery(boolean evidence) {
+    public KNOWLEDGE_COMPONENTS getName() {
+        return this.name;
+    }
+
+    public double getMasteryLevel() { return this.masteryLevel; }
+
+    public void updateMastery(boolean evidence) {
         double slip = 0.1;
         double guess = 0.2;
         double acquisition = 0.7;
@@ -21,5 +28,19 @@ public class KnowledgeComponents {
         }
 
         this.masteryLevel = probL1 + (1 - probL1) * acquisition;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+
+        if (o.getClass() != this.getClass()) {
+            return false;
+        }
+
+        final KnowledgeComponents other = (KnowledgeComponents) o;
+        return this.name == other.name;
     }
 }
