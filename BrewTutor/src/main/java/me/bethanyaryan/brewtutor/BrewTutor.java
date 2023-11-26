@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
+import org.bukkit.conversations.Prompt;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,10 +16,11 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public final class BrewTutor extends JavaPlugin implements Listener {
-
     public final ArrayList<Player> CurrentlyInTutor = new ArrayList<Player>();
     public final ArrayList<StudentModel> SavedTutorData = new ArrayList<StudentModel>();
     public Location brewingStandLocation;
+    public ArrayList<Question> tutorQuestions = new ArrayList<Question>();
+
     @Override
     public void onEnable() {
         System.out.println("[BrewTutor] has been enabled!");
