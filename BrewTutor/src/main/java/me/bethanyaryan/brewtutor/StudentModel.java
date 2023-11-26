@@ -7,11 +7,14 @@ public class StudentModel {
     private int question;
     private int hintCount;
 
+    public boolean waitingForPrompt;
+
     public StudentModel(Player player) {
         super();
         this.player = player;
         this.question = 0;
         this.hintCount = 0;
+        this.waitingForPrompt = true;
 
     }
     public Player getPlayer(){
@@ -32,6 +35,10 @@ public class StudentModel {
 
     public void incrHintCount() {
         this.hintCount += 1;
+    }
+
+    public void resetHintCount() {
+        this.hintCount = 0;
     }
 
     @Override
