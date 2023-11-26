@@ -12,6 +12,7 @@ public class StudentModel {
         this.player = player;
         this.question = 0;
         this.hintCount = 0;
+
     }
     public Player getPlayer(){
         System.out.println("Called get player with student model");

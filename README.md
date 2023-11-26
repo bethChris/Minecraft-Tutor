@@ -55,8 +55,3 @@ Attributes:
 Notes:
 - Might add a difficulty rating?
 - Tasks should probably include all knowledge components associated with the task, including the knowledge component for the potion it is trying to teach. 
-
-
-
-## Fun Quirky Little Notes:
-- Q matrix for defining relationship between knowledge components / tasks
