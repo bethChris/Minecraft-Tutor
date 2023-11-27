@@ -1,18 +1,26 @@
 package me.bethanyaryan.brewtutor;
 
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static me.bethanyaryan.brewtutor.Constants.TASKS;
 
 public class StudentModel {
     private final Player player;
-    private int question;
+    private int questionId;
     private int hintCount;
-
+    private List<KnowledgeComponents> knowledgeComponents = new ArrayList<KnowledgeComponents>();
+    private Task currentTask;
     public boolean waitingForPrompt;
 
     public StudentModel(Player player) {
         super();
         this.player = player;
-        this.question = 0;
+        this.questionId = 0;
         this.hintCount = 0;
         this.waitingForPrompt = true;
 
@@ -21,8 +29,27 @@ public class StudentModel {
         System.out.println("Called get player with student model");
         return this.player;
     }
-    public int getQuestion(){
-        return this.question;
+    public String getQuestion(){
+        this.currentTask = new Task(TASKS[this.questionId], this.player, null); // TODO: Do we need plugin?
+        return this.currentTask.toString();
+    }
+
+    public void submitTask(ItemStack submission) {
+        boolean evidence = this.currentTask.checkConditionMet(submission);
+
+        // For each knowledge component that the task requires, update the mastery accordingly
+        for (KnowledgeComponents taskKC : this.currentTask.kc) {
+            int idx = knowledgeComponents.indexOf(taskKC);
+            if (idx == -1) {
+                knowledgeComponents.add(new KnowledgeComponents(taskKC.getName()));
+                knowledgeComponents.get(knowledgeComponents.size()-1).updateMastery(evidence);
+            } else {
+                knowledgeComponents.get(idx).updateMastery(evidence);
+            }
+        }
+    }
+    public int getQuestionId() {
+        return this.questionId;
     }
 
     public int getHintCount(){
@@ -30,7 +57,7 @@ public class StudentModel {
     }
 
     public void incrQuestion() {
-        this.question += 1;
+        this.questionId += 1;
     }
 
     public void incrHintCount() {
