@@ -16,9 +16,11 @@ public class KnowledgeComponents {
 
     public double getMasteryLevel() { return this.masteryLevel; }
 
+    public boolean isMastered() { return this.masteryLevel >= 0.75; }
+
     public void updateMastery(boolean evidence) {
         double slip = 0.1;
-        double guess = 0.2;
+        double guess = 0.1;
         double acquisition = 0.7;
         double probL1;
         if (evidence) {

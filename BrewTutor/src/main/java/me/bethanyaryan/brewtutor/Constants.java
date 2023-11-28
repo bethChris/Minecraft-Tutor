@@ -16,7 +16,10 @@ public class Constants {
                             "Nether warts can help to create an awkward potion"
                     },
                     PotionType.AWKWARD,
-                    null
+                    null,
+                    new KNOWLEDGE_COMPONENTS[]{
+                            KNOWLEDGE_COMPONENTS.AWKWARD
+                    }
             ),
             new Task(
                     "Create a potion of regeneration",
@@ -27,8 +30,11 @@ public class Constants {
                             "Ghast tears can help to create a regeneration potion"
                     },
                     PotionType.REGEN,
-                    new KnowledgeComponents[]{
-                            new KnowledgeComponents(KNOWLEDGE_COMPONENTS.AWKWARD)
+                    new KNOWLEDGE_COMPONENTS[]{
+                            KNOWLEDGE_COMPONENTS.AWKWARD
+                    },
+                    new KNOWLEDGE_COMPONENTS[]{
+                            KNOWLEDGE_COMPONENTS.REGEN
                     }
             )
     };
