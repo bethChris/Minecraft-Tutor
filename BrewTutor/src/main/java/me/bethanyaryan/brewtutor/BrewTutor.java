@@ -3,8 +3,13 @@ package me.bethanyaryan.brewtutor;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Chest;
+import org.bukkit.block.Sign;
 import org.bukkit.block.data.type.Leaves;
+import org.bukkit.block.sign.Side;
+import org.bukkit.block.sign.SignSide;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,10 +32,6 @@ public final class BrewTutor extends JavaPlugin implements Listener {
     public final ArrayList<Player> PlayersInTutor = new ArrayList<Player>();
     public final ArrayList<StudentModel> SavedTutorData = new ArrayList<StudentModel>();
     public ArrayList<StudentModel> CurrentlyInTutorData = new ArrayList<StudentModel>();
-    public ArrayList<Task> tutorTasks = new ArrayList<Task>();
-
-    public Location brewingStandLocation;
-    public List<String> taskPrompts = Arrays.asList("Make an Awkward Potion","Click a brewing stand");
     public DecisionModel decisionModel;
     public Plugin plugin;
     @Override
@@ -41,7 +42,6 @@ public final class BrewTutor extends JavaPlugin implements Listener {
         this.plugin = this;
         this.decisionModel = new DecisionModel(this);
         this.decisionModel.run();
-
     }
 
     //Toggles the brew tutor based on if the player is in the tutor or not already
@@ -62,7 +62,6 @@ public final class BrewTutor extends JavaPlugin implements Listener {
     }
     public void start(Player player) {
         // if player has used the tutor before, grab their student model state from usedTutor list
-        createBrewingStand(player);
         boolean containsPlayer = false;
         StudentModel model = null;
 
@@ -80,47 +79,22 @@ public final class BrewTutor extends JavaPlugin implements Listener {
         }
 
         CurrentlyInTutorData.add(model);
+        model.createStartItems();
     }
     public void end(Player player){
-        deleteBrewingStand(brewingStandLocation);
         for (StudentModel sm : CurrentlyInTutorData) {
             if (sm.getPlayer() == player ){
                 CurrentlyInTutorData.remove(sm);
+                sm.deleteStartItems();
                 break;
             }
         }
     }
-    public void createBrewingStand(Player player) {
-        Location playerLocation = player.getLocation();
-        int platformZ = playerLocation.getBlockZ() + 1;
-        Location platformLocation = new Location(playerLocation.getWorld(), playerLocation.getBlockX(), playerLocation.getBlockY(), platformZ);
 
-
-        // Calculate the location of the block in front of the player based on their facing direction
-        BlockFace facingDirection = player.getFacing();
-        Location brewingStandLocation = platformLocation.getBlock().getRelative(facingDirection).getLocation();
-
-        // Spawn a brewing stand at the location in front of the player
-        brewingStandLocation.getBlock().setType(Material.BREWING_STAND);
-        //TODO: spawn pumpkin? or some villager to send prompt from?
-        this.brewingStandLocation = brewingStandLocation;
-    }
-    private void deleteBrewingStand(Location brewingStandLocation) {
-        brewingStandLocation.getBlock().setType(Material.AIR);
-    } //TODO: make it so the brewing stand is associated with the student model
-
-    @EventHandler
-    public void cancelBlockBreak(BlockBreakEvent event) {
-        //stops user from picking up block and walking away with it lol
-        if (event.getBlock().getType() == Material.BREWING_STAND) {
-            event.setCancelled(true);
-        }
-    }
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         // Check if the clicked block is a brewing stand
         if (event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.BREWING_STAND) {
-
             // The player clicked on a brewing stand
             Player player = event.getPlayer();
             player.sendMessage(ChatColor.GREEN + "You clicked on a brewing stand!");

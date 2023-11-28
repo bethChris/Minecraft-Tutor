@@ -3,9 +3,16 @@ package me.bethanyaryan.brewtutor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
+
+import java.util.ArrayList;
 
 
 public class DecisionModel {
@@ -27,6 +34,30 @@ public class DecisionModel {
                     player.sendMessage(ChatColor.DARK_PURPLE + "Witch: " + sm.getQuestion());
                     sm.waitingForPrompt = false;
                 }
+
+                Location chestLocation = sm.submissionChestLocation;
+
+                Chest chest = (Chest) player.getWorld().getBlockAt(chestLocation).getState();
+                ItemStack[] content = chest.getInventory().getContents();
+                long count = chest.getInventory().getContents().stream()
+                        .filter(item -> item != null)
+                        .count();
+
+                if (chest.getInventory().getContents().length > 0){
+//                    if (chest.getInventory().getContents().length > 1){
+//                        player.sendMessage(ChatColor.DARK_PURPLE + "Witch: You have too many items in the submission chest. 1 submission at a time please.");
+//                    }else{
+                    ItemStack[] submission = chest.getInventory().getContents();
+                    for (ItemStack item : submission){
+//                        player.sendMessage(ChatColor.DARK_PURPLE + "Witch: you submitted a " + item.toString());
+//                        sm.submitTask(item); //should only be 1
+                        System.out.println(item);
+//                        break;
+                    }
+//                    }
+
+                }
+                //if student submitted a response to their task, grade submission
 
                 //TODO: decision making logic goes here. Update student knowledge, iterate to next prompt, ect
             }
