@@ -15,18 +15,23 @@ import org.bukkit.potion.PotionType;
 public class Task {
     private final Player player;
     private final String prompt;
+
+    //TODO: Ideas for hint system: maybe a 2D array that sorts the hints in order of step #
+    //      If a user is on step 2, loop through all of the step 2 hints infinitely
     private final String[] hints;
     private final PotionType potionType;
     private final Plugin plugin;
-    public final KnowledgeComponents[] kc;
+    public final KNOWLEDGE_COMPONENTS[] neededKCs;
+    public final KNOWLEDGE_COMPONENTS[] givenKCs;
 
-    public Task(Player player, String prompt, String[] hints, PotionType potionType, Plugin plugin, KnowledgeComponents[] kc) {
+    public Task(Player player, String prompt, String[] hints, PotionType potionType, Plugin plugin, KNOWLEDGE_COMPONENTS[] neededKCs, KNOWLEDGE_COMPONENTS[] givenKCs) {
         this.player = player;
         this.prompt = prompt;
         this.hints = hints;
         this.potionType = potionType;
         this.plugin = plugin;
-        this.kc = kc;
+        this.neededKCs = neededKCs;
+        this.givenKCs = givenKCs;
 
 //        this.player.sendMessage(ChatColor.DARK_BLUE + this.prompt);
     }
@@ -38,17 +43,19 @@ public class Task {
         this.hints = copy.hints;
         this.potionType = copy.potionType;
         this.plugin = plugin;
-        this.kc = copy.kc;
+        this.neededKCs = copy.neededKCs;
+        this.givenKCs = copy.givenKCs;
 
 //        this.player.sendMessage(ChatColor.DARK_BLUE + this.prompt);
     }
 
     // Constructor called by the Constants class
-    public Task(String prompt, String[] hints, PotionType potionType, KnowledgeComponents[] kc) {
+    public Task(String prompt, String[] hints, PotionType potionType, KNOWLEDGE_COMPONENTS[] neededKCs, KNOWLEDGE_COMPONENTS[] givenKCs) {
         this.prompt = prompt;
         this.hints = hints;
         this.potionType = potionType;
-        this.kc = kc;
+        this.neededKCs = neededKCs;
+        this.givenKCs = givenKCs;
 
         this.plugin = null;
         this.player = null;
@@ -62,7 +69,8 @@ public class Task {
         this.plugin = plugin;
         this.prompt = "Test Prompt";
         this.hints = new String[]{"hint 1", "hint 2", "hint 3", "hint 4"};
-        this.kc = new KnowledgeComponents[]{new KnowledgeComponents(KNOWLEDGE_COMPONENTS.AWKWARD)};
+        this.neededKCs = null;
+        this.givenKCs = new KNOWLEDGE_COMPONENTS[]{KNOWLEDGE_COMPONENTS.AWKWARD};
     }
 
     // @Parameter submission : The potion the player created
@@ -76,6 +84,9 @@ public class Task {
             // Currently disabled because firework damages player
 //            this.shootFirework();
             return true;
+        } else {
+            this.player.sendMessage(ChatColor.RED + "That's Not Quite Right. Try Again! Remember you can type /hint to get some help!");
+            // TODO: Maybe empty the chest to prevent this being called multiple times?
         }
 
         return false;

@@ -12,13 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static me.bethanyaryan.brewtutor.Constants.TASKS;
@@ -30,7 +25,7 @@ public class StudentModel implements Listener {
 
     private int questionId;
     private int hintCount;
-    private List<KnowledgeComponents> knowledgeComponents = new ArrayList<KnowledgeComponents>();
+    private final List<KnowledgeComponents> knowledgeComponents = new ArrayList<>();
     private Task currentTask;
     public boolean waitingForPrompt;
 
@@ -56,15 +51,20 @@ public class StudentModel implements Listener {
     public void submitTask(ItemStack submission) {
         boolean evidence = this.currentTask.checkConditionMet(submission);
 
-        // For each knowledge component that the task requires, update the mastery accordingly
-        for (KnowledgeComponents taskKC : this.currentTask.kc) {
-            int idx = knowledgeComponents.indexOf(taskKC);
+        // For each knowledge component that the task teaches, update the mastery accordingly
+        for (KNOWLEDGE_COMPONENTS updateKC : this.currentTask.givenKCs) {
+            int idx = knowledgeComponents.indexOf(new KnowledgeComponents(updateKC));
             if (idx == -1) {
-                knowledgeComponents.add(new KnowledgeComponents(taskKC.getName()));
+                knowledgeComponents.add(new KnowledgeComponents(updateKC));
                 knowledgeComponents.get(knowledgeComponents.size()-1).updateMastery(evidence);
             } else {
                 knowledgeComponents.get(idx).updateMastery(evidence);
             }
+        }
+
+        // If the player completed the task successfully, calculate the next task to give them
+        if (evidence) {
+            determineNextQuestion();
         }
     }
     public int getQuestionId() {
@@ -125,9 +125,58 @@ public class StudentModel implements Listener {
         this.submissionChestLocation = submissionChestBlock.getLocation();
     }
 
-    public void deleteStartItems(){
+    public void deleteStartItems() {
         for (Location location : this.itemLocations) {
             location.getBlock().setType(Material.AIR);
+        }
+    }
+
+    // Calculates the next task to give the user based on their knowledge component mastery
+    private void determineNextQuestion() {
+        if (this.questionId == TASKS.length-1) {
+            this.player.sendMessage(ChatColor.GREEN + "WOW YOU LEARNED IT ALL CONGRATULATIONS!!!");
+            return;
+        }
+
+        for (int i=this.questionId; i < TASKS.length-1; i++) {
+            Task tempTask = new Task(TASKS[i], this.player, null);
+
+            // Check if knowledge components that are needed are mastered
+            boolean goodTask = true;
+            if (tempTask.neededKCs != null) {
+                for (KNOWLEDGE_COMPONENTS neededKC : tempTask.neededKCs) {
+                    int idx = knowledgeComponents.indexOf(new KnowledgeComponents(neededKC));
+                    if (idx == -1) {
+                        goodTask = false;
+                        break;
+                    }
+                    if (!knowledgeComponents.get(idx).isMastered()) {
+                        goodTask = false;
+                        break;
+                    }
+                }
+
+                if (!goodTask) { continue; }
+            }
+
+            // Check if knowledge components that will be learned are already mastered
+            goodTask = false;
+            for (KNOWLEDGE_COMPONENTS givenKC : tempTask.givenKCs) {
+                int idx = knowledgeComponents.indexOf(new KnowledgeComponents(givenKC));
+                if (idx == -1) {
+                    goodTask = true;
+                    break;
+                }
+                if (!knowledgeComponents.get(idx).isMastered()) {
+                    goodTask = true;
+                    break;
+                }
+            }
+
+            if (goodTask) {
+                this.questionId = i;
+                break;
+            }
         }
     }
 

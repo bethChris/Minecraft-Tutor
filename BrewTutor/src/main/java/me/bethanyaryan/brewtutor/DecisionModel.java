@@ -39,9 +39,7 @@ public class DecisionModel {
 
                 Chest chest = (Chest) player.getWorld().getBlockAt(chestLocation).getState();
                 ItemStack[] content = chest.getInventory().getContents();
-                long count = chest.getInventory().getContents().stream()
-                        .filter(item -> item != null)
-                        .count();
+
 
                 if (chest.getInventory().getContents().length > 0){
 //                    if (chest.getInventory().getContents().length > 1){
