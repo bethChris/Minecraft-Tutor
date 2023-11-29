@@ -38,28 +38,35 @@ public class DecisionModel {
                 Location chestLocation = sm.submissionChestLocation;
 
                 Chest chest = (Chest) player.getWorld().getBlockAt(chestLocation).getState();
-                ItemStack[] content = chest.getInventory().getContents();
+                ItemStack[] submissionChestItems = chest.getInventory().getContents();
+                ItemStack[] submission = getNonNullItems(submissionChestItems);
 
-
-                if (chest.getInventory().getContents().length > 0){
-//                    if (chest.getInventory().getContents().length > 1){
-//                        player.sendMessage(ChatColor.DARK_PURPLE + "Witch: You have too many items in the submission chest. 1 submission at a time please.");
-//                    }else{
-                    ItemStack[] submission = chest.getInventory().getContents();
-                    for (ItemStack item : submission){
-//                        player.sendMessage(ChatColor.DARK_PURPLE + "Witch: you submitted a " + item.toString());
-//                        sm.submitTask(item); //should only be 1
-                        System.out.println(item);
-//                        break;
+                if (submission.length > 0){
+                    if (submission.length > 1){
+                        player.sendMessage(ChatColor.DARK_PURPLE + "Witch: You have too many items in the submission chest. 1 submission at a time please.");
+                    }else{
+                        for (ItemStack item : submission){
+                            player.sendMessage(ChatColor.DARK_PURPLE + "Witch: you submitted a " + item.toString());
+                            sm.submitTask(item);
+                            chest.getInventory().remove(item);
+                            break; //should only be 1
+                        }
                     }
-//                    }
-
                 }
-                //if student submitted a response to their task, grade submission
 
                 //TODO: decision making logic goes here. Update student knowledge, iterate to next prompt, ect
             }
         }, 20L * 10L /*<-- the initial delay */, 20L * 5L /*<-- the interval */); //TODO: adjust this time interval
+    }
+
+    private ItemStack[] getNonNullItems(ItemStack[] items) {
+        ArrayList<ItemStack> nonNullItems = new ArrayList<>();
+        for (ItemStack item : items) {
+            if (item != null) {
+                nonNullItems.add(item);
+            }
+        }
+        return nonNullItems.toArray(new ItemStack[0]);
     }
 
     public void stop(){

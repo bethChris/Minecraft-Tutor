@@ -37,5 +37,5 @@ public class Constants {
                             KNOWLEDGE_COMPONENTS.REGEN
                     }
             )
-    };
+    };//TODO: maybe add a "final" task that is just "woot woot you finished"?
 }

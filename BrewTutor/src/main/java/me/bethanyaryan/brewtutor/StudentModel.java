@@ -65,6 +65,8 @@ public class StudentModel implements Listener {
         // If the player completed the task successfully, calculate the next task to give them
         if (evidence) {
             determineNextQuestion();
+        }else{
+            player.sendMessage(ChatColor.RED + "WRONG. Please try again.");
         }
     }
     public int getQuestionId() {
@@ -138,6 +140,7 @@ public class StudentModel implements Listener {
             return;
         }
 
+        this.waitingForPrompt = true;
         for (int i=this.questionId; i < TASKS.length-1; i++) {
             Task tempTask = new Task(TASKS[i], this.player, null);
 
