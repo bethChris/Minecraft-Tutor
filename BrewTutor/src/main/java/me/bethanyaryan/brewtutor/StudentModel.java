@@ -141,7 +141,7 @@ public class StudentModel implements Listener {
         }
 
         this.waitingForPrompt = true;
-        for (int i=this.questionId; i < TASKS.length-1; i++) {
+        for (int i=this.questionId; i <= TASKS.length-1; i++) {
             Task tempTask = new Task(TASKS[i], this.player, null);
 
             // Check if knowledge components that are needed are mastered
