@@ -1,9 +1,6 @@
 package me.bethanyaryan.brewtutor;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Item;
@@ -54,12 +51,15 @@ public class DecisionModel {
                     }
                 }
 
-                //refill chests with materials
+                //refill chests with materials and brewing stand fuel
                 Chest materialChest = sm.materialChest;
                 ItemStack[] materials = getNonNullItems(materialChest.getInventory().getContents());
                 if (materials.length < MATERIALS.length){
                     sm.refillMaterials();
                 }
+
+                sm.brewingStand.getInventory().setFuel(new ItemStack(Material.BLAZE_POWDER, 1));
+                //TODO: add this to student model? ^
 
             }
         }, 20L * 10L /*<-- the initial delay */, 20L * 5L /*<-- the interval */); //TODO: adjust this time interval

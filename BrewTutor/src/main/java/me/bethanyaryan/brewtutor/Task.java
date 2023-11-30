@@ -75,6 +75,7 @@ public class Task {
 
     // @Parameter submission : The potion the player created
     public boolean checkConditionMet(ItemStack submission) {
+        //TODO: doesn't catch non potion type items for some reason
         if (!(submission.getType() == Material.POTION)) { return false; }
 
         PotionMeta potion = (PotionMeta)submission.getItemMeta();
@@ -86,7 +87,6 @@ public class Task {
             return true;
         } else {
             this.player.sendMessage(ChatColor.RED + "That's Not Quite Right. Try Again! Remember you can type /hint to get some help!");
-            // TODO: Maybe empty the chest to prevent this being called multiple times?
         }
 
         return false;

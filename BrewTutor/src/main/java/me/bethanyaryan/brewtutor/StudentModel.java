@@ -3,10 +3,7 @@ package me.bethanyaryan.brewtutor;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
-import org.bukkit.block.Sign;
+import org.bukkit.block.*;
 import org.bukkit.block.sign.Side;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,8 +20,8 @@ public class StudentModel implements Listener {
     private final Player player;
     ArrayList<Location> itemLocations = new ArrayList<Location>();
     public Chest submissionChest;
-
     public Chest materialChest;
+    public BrewingStand brewingStand;
     private int questionId;
     private int hintCount;
     private final List<KnowledgeComponents> knowledgeComponents = new ArrayList<>();
@@ -100,13 +97,16 @@ public class StudentModel implements Listener {
         Block brewingStandBlock = this.player.getLocation().getBlock().getRelative(BlockFace.SOUTH);
         Block materialChestBlock = brewingStandBlock.getLocation().getBlock().getRelative(BlockFace.WEST);
         Block submissionChestBlock = brewingStandBlock.getLocation().getBlock().getRelative(BlockFace.EAST);
+        Block waterCauldronBlock = materialChestBlock.getLocation().getBlock().getRelative(BlockFace.WEST);
 
         brewingStandBlock.setType(Material.BREWING_STAND);
         materialChestBlock.setType(Material.CHEST);
         submissionChestBlock.setType(Material.CHEST);
+        waterCauldronBlock.setType(Material.WATER_CAULDRON);
 
         Chest materialChest = (Chest) materialChestBlock.getState();
         Chest submissionChest = (Chest) submissionChestBlock.getState();
+        BrewingStand brewingStand = (BrewingStand) brewingStandBlock.getState();
 
         // put a sign on the chests
         Block materialSignBlock = materialChestBlock.getRelative(BlockFace.SOUTH);
@@ -122,14 +122,16 @@ public class StudentModel implements Listener {
         submissionSign.update();
 
         //add signs first, so they'll be the first to be deleted
-        this.itemLocations.add((materialSign.getLocation()));
-        this.itemLocations.add((submissionSign.getLocation()));
+        this.itemLocations.add(materialSign.getLocation());
+        this.itemLocations.add(submissionSign.getLocation());
         this.itemLocations.add(brewingStandBlock.getLocation());
-        this.itemLocations.add((materialChestBlock.getLocation()));
-        this.itemLocations.add((submissionChestBlock.getLocation()));
+        this.itemLocations.add(materialChestBlock.getLocation());
+        this.itemLocations.add(submissionChestBlock.getLocation());
+        this.itemLocations.add(waterCauldronBlock.getLocation());
 
         this.submissionChest = submissionChest;
         this.materialChest = materialChest;
+        this.brewingStand = brewingStand;
         refillMaterials();
     }
 
@@ -143,6 +145,7 @@ public class StudentModel implements Listener {
     private void determineNextQuestion() {
         if (this.questionId == TASKS.length-1) {
             this.player.sendMessage(ChatColor.GREEN + "WOW YOU LEARNED IT ALL CONGRATULATIONS!!!");
+            //TODO: end tutor
             return;
         }
 

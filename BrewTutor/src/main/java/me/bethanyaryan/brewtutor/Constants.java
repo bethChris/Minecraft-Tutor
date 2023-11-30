@@ -11,7 +11,7 @@ public class Constants {
 
     public static final ItemStack[] MATERIALS = new ItemStack[] {
             new ItemStack(Material.NETHER_WART, 1),
-            new ItemStack(Material.WATER, 1),
+            new ItemStack(Material.GLASS_BOTTLE, 1),
             new ItemStack(Material.GHAST_TEAR, 1),
             new ItemStack(Material.STRING, 1),
             new ItemStack(Material.INK_SAC, 1),
