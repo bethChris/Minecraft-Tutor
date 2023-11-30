@@ -2,6 +2,7 @@ package me.bethanyaryan.brewtutor;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionType;
 
 public class Constants {
@@ -33,6 +34,10 @@ public class Constants {
                                     "Nether warts seem pretty awkward",
                                     "Place a nether wart in the top section of the brewing stand"
                             }},
+                    new ItemStack[]{
+                            null,
+                            makePotionItemStack(PotionType.WATER)
+                    },
                     PotionType.AWKWARD,
                     null,
                     new KNOWLEDGE_COMPONENTS[]{
@@ -54,6 +59,10 @@ public class Constants {
                                     "Ghast tears can help to create a regeneration potion",
                                     "Place a ghast tear in the top section of the brewing stand"
                             }},
+                    new ItemStack[]{
+                            null,
+                            makePotionItemStack(PotionType.AWKWARD)
+                    },
                     PotionType.REGEN,
                     new KNOWLEDGE_COMPONENTS[]{
                             KNOWLEDGE_COMPONENTS.AWKWARD
@@ -68,9 +77,19 @@ public class Constants {
                             {
                                     "There is nothing left for me to teach you"
                             }},
+                    new ItemStack[]{null},
                     null,
                     null,
                     null
             )
     };
+
+    // Creates an ItemStack of a potion for a given potionType
+    public static ItemStack makePotionItemStack(PotionType potionType) {
+        ItemStack stack = new ItemStack(Material.POTION);
+        PotionMeta thing = (PotionMeta)stack.getItemMeta();
+        thing.setBasePotionType(potionType);
+        stack.setItemMeta(thing);
+        return stack;
+    }
 }
