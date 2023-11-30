@@ -13,8 +13,7 @@ public class CommandHint implements CommandExecutor {
         Player player = (Player) sender;
         BrewTutor plugin = (BrewTutor) Bukkit.getPluginManager().getPlugin("BrewTutor");
         if(command.getName().equalsIgnoreCase("hint")) {
-            //plugin.POINT THIS TO THE CODE THAT DOES THE HINTS
-            player.sendMessage(ChatColor.RED + "NO HINT FOR YOU YOU FOOL!");
+            plugin.toggleHint(player);
         }
 
         return true;

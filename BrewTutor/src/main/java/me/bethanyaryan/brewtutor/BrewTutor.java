@@ -58,6 +58,28 @@ public final class BrewTutor extends JavaPlugin implements Listener {
             end(player);
         }
     }
+
+    // Gives a hint only if the player is in the tutor and their student model already exists
+    public void toggleHint(Player player) {
+        if (!inTutor(player)) { return; }
+        else {
+            boolean containsPlayer = false;
+            StudentModel model = null;
+
+            for (StudentModel SM : SavedTutorData) {
+                if (SM.getPlayer() == player){
+                    containsPlayer = true;
+                    model = SM;
+                    break;
+                }
+            }
+
+            if (!containsPlayer) { return; }
+
+            model.getHint();
+        }
+    }
+
     public boolean inTutor(Player player) {
         return PlayersInTutor.contains(player);
     }

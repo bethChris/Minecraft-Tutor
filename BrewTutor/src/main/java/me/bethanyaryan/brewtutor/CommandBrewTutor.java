@@ -16,7 +16,6 @@ public class CommandBrewTutor implements CommandExecutor {
             plugin.toggleBrewTutor(player);
         }
 
-        //TODO: add hint command
         return true;
     }
 

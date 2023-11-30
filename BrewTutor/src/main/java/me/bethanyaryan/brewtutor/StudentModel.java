@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static me.bethanyaryan.brewtutor.Constants.MATERIALS;
@@ -18,7 +19,7 @@ import static me.bethanyaryan.brewtutor.Constants.TASKS;
 
 public class StudentModel implements Listener {
     private final Player player;
-    ArrayList<Location> itemLocations = new ArrayList<Location>();
+    ArrayList<Location> itemLocations = new ArrayList<>();
     public Chest submissionChest;
     public Chest materialChest;
     public BrewingStand brewingStand;
@@ -38,13 +39,18 @@ public class StudentModel implements Listener {
         this.waitingForPrompt = true;
 
     }
-    public Player getPlayer(){
+    public Player getPlayer() {
 //        System.out.println("Called get player with student model");
         return this.player;
     }
-    public String getQuestion(){
+    public String getQuestion() {
         this.currentTask = new Task(TASKS[this.questionId], this.player, null); // TODO: Do we need plugin?
         return this.currentTask.toString();
+    }
+
+    public void getHint() {
+        ItemStack[] brewingContents = Arrays.copyOfRange(this.brewingStand.getInventory().getContents(), 0, 3);
+        this.currentTask.nextHint(brewingContents);
     }
 
     public void submitTask(ItemStack submission) {

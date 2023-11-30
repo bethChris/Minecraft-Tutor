@@ -2,7 +2,6 @@ package me.bethanyaryan.brewtutor;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionType;
 
 public class Constants {
@@ -34,9 +33,9 @@ public class Constants {
                                     "Nether warts seem pretty awkward",
                                     "Place a nether wart in the top section of the brewing stand"
                             }},
-                    new ItemStack[]{
+                    new PotionType[]{
                             null,
-                            makePotionItemStack(PotionType.WATER)
+                            PotionType.WATER
                     },
                     PotionType.AWKWARD,
                     null,
@@ -59,9 +58,9 @@ public class Constants {
                                     "Ghast tears can help to create a regeneration potion",
                                     "Place a ghast tear in the top section of the brewing stand"
                             }},
-                    new ItemStack[]{
+                    new PotionType[]{
                             null,
-                            makePotionItemStack(PotionType.AWKWARD)
+                            PotionType.AWKWARD
                     },
                     PotionType.REGEN,
                     new KNOWLEDGE_COMPONENTS[]{
@@ -77,19 +76,20 @@ public class Constants {
                             {
                                     "There is nothing left for me to teach you"
                             }},
-                    new ItemStack[]{null},
+                    new PotionType[]{null},
                     null,
                     null,
                     null
             )
     };
 
-    // Creates an ItemStack of a potion for a given potionType
-    public static ItemStack makePotionItemStack(PotionType potionType) {
-        ItemStack stack = new ItemStack(Material.POTION);
-        PotionMeta thing = (PotionMeta)stack.getItemMeta();
-        thing.setBasePotionType(potionType);
-        stack.setItemMeta(thing);
-        return stack;
-    }
+    // TODO: I believe no longer needed, currently commented just in case we need it
+//    // Creates an ItemStack of a potion for a given potionType
+//    public static ItemStack makePotionItemStack(PotionType potionType) {
+//        ItemStack stack = new ItemStack(Material.POTION);
+//        PotionMeta thing = (PotionMeta)stack.getItemMeta();
+//        thing.setBasePotionType(potionType);
+//        stack.setItemMeta(thing);
+//        return stack;
+//    }
 }
