@@ -36,9 +36,9 @@ public final class BrewTutor extends JavaPlugin implements Listener {
     public Plugin plugin;
     @Override
     public void onEnable() {
-        new CommandBrewTutor();
         System.out.println("[BrewTutor] has been enabled!");
         Objects.requireNonNull(this.getCommand("BrewTutor")).setExecutor(new CommandBrewTutor());
+        Objects.requireNonNull(this.getCommand("hint")).setExecutor(new CommandHint());
         getServer().getPluginManager().registerEvents(this, this);
         this.plugin = this;
         this.decisionModel = new DecisionModel(this);
