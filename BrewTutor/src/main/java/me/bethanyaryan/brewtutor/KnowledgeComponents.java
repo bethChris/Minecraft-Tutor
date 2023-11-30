@@ -30,6 +30,7 @@ public class KnowledgeComponents {
         }
 
         this.masteryLevel = probL1 + (1 - probL1) * acquisition;
+        System.out.println(this.masteryLevel);
     }
 
     @Override

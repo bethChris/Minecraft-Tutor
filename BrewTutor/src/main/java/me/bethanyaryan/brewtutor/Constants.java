@@ -1,5 +1,7 @@
 package me.bethanyaryan.brewtutor;
 
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionType;
 
 public class Constants {
@@ -7,6 +9,14 @@ public class Constants {
         // Restrict instantiation
     }
 
+    public static final ItemStack[] MATERIALS = new ItemStack[] {
+            new ItemStack(Material.NETHER_WART, 1),
+            new ItemStack(Material.GLASS_BOTTLE, 1),
+            new ItemStack(Material.GHAST_TEAR, 1),
+            new ItemStack(Material.STRING, 1),
+            new ItemStack(Material.INK_SAC, 1),
+            new ItemStack(Material.APPLE, 1)
+    };
     // List of all the tasks that can be provided to a user in order of difficulty
     public static final Task[] TASKS = new Task[] {
             new Task(
@@ -37,5 +47,5 @@ public class Constants {
                             KNOWLEDGE_COMPONENTS.REGEN
                     }
             )
-    };
+    };//TODO: maybe add a "final" task that is just "woot woot you finished"?
 }
