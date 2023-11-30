@@ -21,10 +21,18 @@ public class Constants {
     public static final Task[] TASKS = new Task[] {
             new Task(
                     "Create an awkward potion",
-                    new String[]{
-                            "What is the first ingredient you brew when making a potion?",
-                            "Nether warts can help to create an awkward potion"
-                    },
+                    new String[][]{
+                            {
+                                    "What do you need to put in the bottom section of the brewing stand?",
+                                    "The first item you should start with is a water bottle",
+                                    "Place a water bottle in one of the three bottom sections of the brewing stand"
+                            },
+                            {
+                                    "What item can you use to turn a water bottle into an awkward potion?",
+                                    "A plant from the nether may help",
+                                    "Nether warts seem pretty awkward",
+                                    "Place a nether wart in the top section of the brewing stand"
+                            }},
                     PotionType.AWKWARD,
                     null,
                     new KNOWLEDGE_COMPONENTS[]{
@@ -33,12 +41,19 @@ public class Constants {
             ),
             new Task(
                     "Create a potion of regeneration",
-                    new String[]{
-                            "What is the first type of potion you should make?",
-                            "First you need to make an awkward potion",
-                            "What ingredient do you add to an awkward potion to make it regeneration?",
-                            "Ghast tears can help to create a regeneration potion"
-                    },
+                    new String[][]{
+                            {
+                                    "What is the most basic potion you can make?",
+                                    "Is there a base potion you can make with nether wart?",
+                                    "First you need to start with an awkward potion",
+                                    "Create an awkward potion in one of the three bottom sections of the brewing stand"
+                            },
+                            {
+                                    "What ingredient can you add to an awkward potion to make it regeneration?",
+                                    "A certain white colored mob from the nether may drop the needed ingredient",
+                                    "Ghast tears can help to create a regeneration potion",
+                                    "Place a ghast tear in the top section of the brewing stand"
+                            }},
                     PotionType.REGEN,
                     new KNOWLEDGE_COMPONENTS[]{
                             KNOWLEDGE_COMPONENTS.AWKWARD
@@ -46,6 +61,16 @@ public class Constants {
                     new KNOWLEDGE_COMPONENTS[]{
                             KNOWLEDGE_COMPONENTS.REGEN
                     }
+            ),
+            new Task(
+                    "Congratulations, you've mastered the art of brewing!!!",
+                    new String[][]{
+                            {
+                                    "There is nothing left for me to teach you"
+                            }},
+                    null,
+                    null,
+                    null
             )
-    };//TODO: maybe add a "final" task that is just "woot woot you finished"?
+    };
 }
