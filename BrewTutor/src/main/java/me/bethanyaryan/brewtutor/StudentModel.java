@@ -16,13 +16,15 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
+import static me.bethanyaryan.brewtutor.Constants.MATERIALS;
 import static me.bethanyaryan.brewtutor.Constants.TASKS;
 
 public class StudentModel implements Listener {
     private final Player player;
     ArrayList<Location> itemLocations = new ArrayList<Location>();
-    public Location submissionChestLocation;
+    public Chest submissionChest;
 
+    public Chest materialChest;
     private int questionId;
     private int hintCount;
     private final List<KnowledgeComponents> knowledgeComponents = new ArrayList<>();
@@ -40,7 +42,7 @@ public class StudentModel implements Listener {
 
     }
     public Player getPlayer(){
-        System.out.println("Called get player with student model");
+//        System.out.println("Called get player with student model");
         return this.player;
     }
     public String getQuestion(){
@@ -65,8 +67,6 @@ public class StudentModel implements Listener {
         // If the player completed the task successfully, calculate the next task to give them
         if (evidence) {
             determineNextQuestion();
-        }else{
-            player.sendMessage(ChatColor.RED + "WRONG. Please try again.");
         }
     }
     public int getQuestionId() {
@@ -89,6 +89,13 @@ public class StudentModel implements Listener {
         this.hintCount = 0;
     }
 
+    public void refillMaterials() {
+        this.materialChest.getInventory().clear();
+        for (ItemStack material : MATERIALS){
+            this.materialChest.getInventory().addItem(material);
+        }
+    }
+
     public void createStartItems(){
         Block brewingStandBlock = this.player.getLocation().getBlock().getRelative(BlockFace.SOUTH);
         Block materialChestBlock = brewingStandBlock.getLocation().getBlock().getRelative(BlockFace.WEST);
@@ -98,11 +105,8 @@ public class StudentModel implements Listener {
         materialChestBlock.setType(Material.CHEST);
         submissionChestBlock.setType(Material.CHEST);
 
-        // Fill the chest with a stack of Netherwart and other things
-        //TODO: fill with other things
         Chest materialChest = (Chest) materialChestBlock.getState();
-        ItemStack netherwartStack = new ItemStack(Material.NETHER_WART, 64);
-        materialChest.getInventory().addItem(netherwartStack);
+        Chest submissionChest = (Chest) submissionChestBlock.getState();
 
         // put a sign on the chests
         Block materialSignBlock = materialChestBlock.getRelative(BlockFace.SOUTH);
@@ -124,7 +128,9 @@ public class StudentModel implements Listener {
         this.itemLocations.add((materialChestBlock.getLocation()));
         this.itemLocations.add((submissionChestBlock.getLocation()));
 
-        this.submissionChestLocation = submissionChestBlock.getLocation();
+        this.submissionChest = submissionChest;
+        this.materialChest = materialChest;
+        refillMaterials();
     }
 
     public void deleteStartItems() {

@@ -9,3 +9,6 @@ commands:
   BrewTutor:
     description: Toggles the BrewTutor plugin
     usage: /brewtutor
+  hint:
+    description: gives the user the next hint
+    usage: /hint

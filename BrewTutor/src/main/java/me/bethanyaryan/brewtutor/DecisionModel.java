@@ -14,13 +14,14 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.ArrayList;
 
+import static me.bethanyaryan.brewtutor.Constants.MATERIALS;
+
 
 public class DecisionModel {
     private final BrewTutor plugin;
     private BukkitScheduler scheduler;
     public DecisionModel(BrewTutor plugin){
         this.plugin = plugin;
-        //TODO: this decision model will need access to: tasks, all student models in tutor
     }
 
     public void run(){
@@ -29,16 +30,14 @@ public class DecisionModel {
         scheduler.runTaskTimer(plugin, () -> {
             for (StudentModel sm : plugin.CurrentlyInTutorData){
                 Player player = sm.getPlayer();
-//                Bukkit.broadcastMessage(sm.getPlayer().getDisplayName() + " is in the tutor!");
                 if (sm.waitingForPrompt){
-                    player.sendMessage(ChatColor.DARK_PURPLE + "Witch: " + sm.getQuestion());
+                    player.sendMessage(ChatColor.DARK_PURPLE + "Witch: " + ChatColor.GOLD + sm.getQuestion());
                     sm.waitingForPrompt = false;
                 }
 
-                Location chestLocation = sm.submissionChestLocation;
-
-                Chest chest = (Chest) player.getWorld().getBlockAt(chestLocation).getState();
-                ItemStack[] submissionChestItems = chest.getInventory().getContents();
+                //grade submission if any
+                Chest submissionChest = sm.submissionChest;
+                ItemStack[] submissionChestItems = submissionChest.getInventory().getContents();
                 ItemStack[] submission = getNonNullItems(submissionChestItems);
 
                 if (submission.length > 0){
@@ -46,15 +45,22 @@ public class DecisionModel {
                         player.sendMessage(ChatColor.DARK_PURPLE + "Witch: You have too many items in the submission chest. 1 submission at a time please.");
                     }else{
                         for (ItemStack item : submission){
-                            player.sendMessage(ChatColor.DARK_PURPLE + "Witch: you submitted a " + item.toString());
+                            player.sendMessage(ChatColor.DARK_PURPLE + "Witch: grading your submission...");
                             sm.submitTask(item);
-                            chest.getInventory().remove(item);
+                            submissionChest.getInventory().remove(item);
                             break; //should only be 1
                         }
+
                     }
                 }
 
-                //TODO: decision making logic goes here. Update student knowledge, iterate to next prompt, ect
+                //refill chests with materials
+                Chest materialChest = sm.materialChest;
+                ItemStack[] materials = getNonNullItems(materialChest.getInventory().getContents());
+                if (materials.length < MATERIALS.length){
+                    sm.refillMaterials();
+                }
+
             }
         }, 20L * 10L /*<-- the initial delay */, 20L * 5L /*<-- the interval */); //TODO: adjust this time interval
     }
@@ -69,6 +75,7 @@ public class DecisionModel {
         return nonNullItems.toArray(new ItemStack[0]);
     }
 
+    //stops the async loop
     public void stop(){
         scheduler.cancelTasks(plugin);
     }

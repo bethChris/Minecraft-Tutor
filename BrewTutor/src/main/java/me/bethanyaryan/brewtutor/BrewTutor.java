@@ -36,6 +36,7 @@ public final class BrewTutor extends JavaPlugin implements Listener {
     public Plugin plugin;
     @Override
     public void onEnable() {
+        new CommandBrewTutor();
         System.out.println("[BrewTutor] has been enabled!");
         Objects.requireNonNull(this.getCommand("BrewTutor")).setExecutor(new CommandBrewTutor());
         getServer().getPluginManager().registerEvents(this, this);
@@ -78,12 +79,15 @@ public final class BrewTutor extends JavaPlugin implements Listener {
             SavedTutorData.add(model);
         }
 
+        //add to list, create start items, start prompt
         CurrentlyInTutorData.add(model);
         model.createStartItems();
+        model.waitingForPrompt = true;
     }
     public void end(Player player){
         for (StudentModel sm : CurrentlyInTutorData) {
             if (sm.getPlayer() == player ){
+                //boop them from list, remove spawned items
                 CurrentlyInTutorData.remove(sm);
                 sm.deleteStartItems();
                 break;
@@ -99,12 +103,12 @@ public final class BrewTutor extends JavaPlugin implements Listener {
             Player player = event.getPlayer();
             player.sendMessage(ChatColor.GREEN + "You clicked on a brewing stand!");
 
-            Task task = new Task(player, this.plugin);
-            ItemStack stack = new ItemStack(Material.POTION);
-            PotionMeta thing = (PotionMeta)stack.getItemMeta();
-            thing.setBasePotionType(PotionType.AWKWARD);
-            stack.setItemMeta(thing);
-            task.checkConditionMet(stack);
+//            Task task = new Task(player, this.plugin);
+//            ItemStack stack = new ItemStack(Material.POTION);
+//            PotionMeta thing = (PotionMeta)stack.getItemMeta();
+//            thing.setBasePotionType(PotionType.AWKWARD);
+//            stack.setItemMeta(thing);
+//            task.checkConditionMet(stack);
         }
     }
 
