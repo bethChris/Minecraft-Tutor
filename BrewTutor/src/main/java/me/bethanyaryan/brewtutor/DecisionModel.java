@@ -42,7 +42,7 @@ public class DecisionModel {
                         player.sendMessage(ChatColor.DARK_PURPLE + "Witch: You have too many items in the submission chest. 1 submission at a time please.");
                     }else{
                         for (ItemStack item : submission){
-                            player.sendMessage(ChatColor.DARK_PURPLE + "Witch: grading your submission...");
+                            player.sendMessage(ChatColor.DARK_PURPLE + "Witch: Grading your submission...");
                             sm.submitTask(item);
                             submissionChest.getInventory().remove(item);
                             break; //should only be 1

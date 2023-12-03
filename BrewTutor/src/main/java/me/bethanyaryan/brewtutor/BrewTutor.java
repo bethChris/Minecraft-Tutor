@@ -36,15 +36,15 @@ public final class BrewTutor extends JavaPlugin implements Listener {
     public Plugin plugin;
     @Override
     public void onEnable() {
-        new CommandBrewTutor();
         System.out.println("[BrewTutor] has been enabled!");
         Objects.requireNonNull(this.getCommand("BrewTutor")).setExecutor(new CommandBrewTutor());
+        Objects.requireNonNull(this.getCommand("hint")).setExecutor(new CommandHint());
         getServer().getPluginManager().registerEvents(this, this);
         this.plugin = this;
         this.decisionModel = new DecisionModel(this);
         this.decisionModel.run();
     }
-
+    //comment
     //Toggles the brew tutor based on if the player is in the tutor or not already
     public void toggleBrewTutor(Player player){
         if (!inTutor(player)){
@@ -58,6 +58,28 @@ public final class BrewTutor extends JavaPlugin implements Listener {
             end(player);
         }
     }
+
+    // Gives a hint only if the player is in the tutor and their student model already exists
+    public void toggleHint(Player player) {
+        if (!inTutor(player)) { return; }
+        else {
+            boolean containsPlayer = false;
+            StudentModel model = null;
+
+            for (StudentModel SM : SavedTutorData) {
+                if (SM.getPlayer() == player){
+                    containsPlayer = true;
+                    model = SM;
+                    break;
+                }
+            }
+
+            if (!containsPlayer) { return; }
+
+            model.getHint();
+        }
+    }
+
     public boolean inTutor(Player player) {
         return PlayersInTutor.contains(player);
     }
