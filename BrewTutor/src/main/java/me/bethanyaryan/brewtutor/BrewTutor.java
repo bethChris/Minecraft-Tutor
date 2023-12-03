@@ -44,7 +44,7 @@ public final class BrewTutor extends JavaPlugin implements Listener {
         this.decisionModel = new DecisionModel(this);
         this.decisionModel.run();
     }
-
+    //comment
     //Toggles the brew tutor based on if the player is in the tutor or not already
     public void toggleBrewTutor(Player player){
         if (!inTutor(player)){

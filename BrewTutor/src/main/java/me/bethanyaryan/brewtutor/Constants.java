@@ -50,7 +50,7 @@ public class Constants {
                                     "What is the most basic potion you can make?",
                                     "Is there a base potion you can make with nether wart?",
                                     "First you need to start with an awkward potion",
-                                    "Create an awkward potion in one of the three bottom sections of the brewing stand"
+                                    "Place an awkward potion in one of the three bottom sections of the brewing stand"
                             },
                             {
                                     "What ingredient can you add to an awkward potion to make it regeneration?",

@@ -103,7 +103,7 @@ public class Task {
             }
         }
 
-        if (potions.contains(this.potionType)) {
+        if (this.potionType != null && potions.contains(this.potionType)) {
             this.player.sendMessage(ChatColor.DARK_PURPLE + "Witch: " + ChatColor.AQUA + "It seems you have completed the task. Submit your potion to the chest on your left");
             return;
         }

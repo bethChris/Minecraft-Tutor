@@ -158,7 +158,6 @@ public class StudentModel implements Listener {
         this.waitingForPrompt = true;
         for (int i=this.questionId; i <= TASKS.length-1; i++) {
             Task tempTask = new Task(TASKS[i], this.player, null);
-
             // Check if knowledge components that are needed are mastered
             boolean goodTask = true;
             if (tempTask.neededKCs != null) {
@@ -179,17 +178,23 @@ public class StudentModel implements Listener {
 
             // Check if knowledge components that will be learned are already mastered
             goodTask = false;
-            for (KNOWLEDGE_COMPONENTS givenKC : tempTask.givenKCs) {
-                int idx = knowledgeComponents.indexOf(new KnowledgeComponents(givenKC));
-                if (idx == -1) {
-                    goodTask = true;
-                    break;
+            if (tempTask.givenKCs != null) { //added a check for null like with neededKCs cuz it was breaking.
+                for (KNOWLEDGE_COMPONENTS givenKC : tempTask.givenKCs) {
+                    int idx = knowledgeComponents.indexOf(new KnowledgeComponents(givenKC));
+                    if (idx == -1) {
+                        goodTask = true;
+                        break;
+                    }
+                    if (!knowledgeComponents.get(idx).isMastered()) {
+                        goodTask = true;
+                        break;
+                    }
                 }
-                if (!knowledgeComponents.get(idx).isMastered()) {
-                    goodTask = true;
-                    break;
-                }
+            }else{ //they've reached the end of the tutor
+                this.questionId = i;
+                break;
             }
+
 
             if (goodTask) {
                 this.questionId = i;
