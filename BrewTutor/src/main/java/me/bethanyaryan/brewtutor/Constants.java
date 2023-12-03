@@ -10,12 +10,24 @@ public class Constants {
     }
 
     public static final ItemStack[] MATERIALS = new ItemStack[] {
-            new ItemStack(Material.NETHER_WART, 1),
             new ItemStack(Material.GLASS_BOTTLE, 1),
+            new ItemStack(Material.NETHER_WART, 1),
             new ItemStack(Material.GHAST_TEAR, 1),
-            new ItemStack(Material.STRING, 1),
-            new ItemStack(Material.INK_SAC, 1),
-            new ItemStack(Material.APPLE, 1)
+            new ItemStack(Material.FERMENTED_SPIDER_EYE, 1),
+            new ItemStack(Material.GLOWSTONE_DUST, 1),
+            new ItemStack(Material.REDSTONE, 1),
+            new ItemStack(Material.BLAZE_POWDER, 1),
+            new ItemStack(Material.MAGMA_CREAM, 1),
+            new ItemStack(Material.SPIDER_EYE, 1),
+            new ItemStack(Material.GLISTERING_MELON_SLICE, 1),
+            new ItemStack(Material.SUGAR, 1),
+            new ItemStack(Material.RABBIT_FOOT, 1),
+            new ItemStack(Material.PUFFERFISH, 1),
+            new ItemStack(Material.GOLDEN_CARROT, 1),
+            new ItemStack(Material.GUNPOWDER, 1),
+            new ItemStack(Material.TURTLE_HELMET, 1),
+            new ItemStack(Material.DRAGON_BREATH, 1),
+            new ItemStack(Material.PHANTOM_MEMBRANE, 1)
     };
     // List of all the tasks that can be provided to a user in order of difficulty
     public static final Task[] TASKS = new Task[] {
