@@ -18,8 +18,6 @@ public class Task {
     private final Player player;
     private final String prompt;
 
-    //TODO: Ideas for hint system: maybe a 2D array that sorts the hints in order of step #
-    //      If a user is on step 2, loop through all of the step 2 hints infinitely
     private final String[][] hints;
     private final List<PotionType> hintItems;
     private final int[] hintNums;

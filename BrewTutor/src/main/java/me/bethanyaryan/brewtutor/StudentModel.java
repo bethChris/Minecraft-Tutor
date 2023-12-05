@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static me.bethanyaryan.brewtutor.Constants.MATERIALS;
-import static me.bethanyaryan.brewtutor.Constants.TASKS;
+import static me.bethanyaryan.brewtutor.Constants.*;
 
 public class StudentModel implements Listener {
     private final Player player;
@@ -24,18 +23,14 @@ public class StudentModel implements Listener {
     public Chest materialChest;
     public BrewingStand brewingStand;
     private int questionId;
-    private int hintCount;
     private final List<KnowledgeComponents> knowledgeComponents = new ArrayList<>();
     private Task currentTask;
     public boolean waitingForPrompt;
-
-    public boolean submittedTask;
 
     public StudentModel(Player player) {
         super();
         this.player = player;
         this.questionId = 0;
-        this.hintCount = 0;
         this.waitingForPrompt = true;
 
     }
@@ -58,9 +53,9 @@ public class StudentModel implements Listener {
 
         // For each knowledge component that the task teaches, update the mastery accordingly
         for (KNOWLEDGE_COMPONENTS updateKC : this.currentTask.givenKCs) {
-            int idx = knowledgeComponents.indexOf(new KnowledgeComponents(updateKC));
+            int idx = knowledgeComponents.indexOf(new KnowledgeComponents(updateKC, KC_LEVELS.get(updateKC.toString())));
             if (idx == -1) {
-                knowledgeComponents.add(new KnowledgeComponents(updateKC));
+                knowledgeComponents.add(new KnowledgeComponents(updateKC, KC_LEVELS.get(updateKC.toString())));
                 knowledgeComponents.get(knowledgeComponents.size()-1).updateMastery(evidence);
             } else {
                 knowledgeComponents.get(idx).updateMastery(evidence);
@@ -71,25 +66,6 @@ public class StudentModel implements Listener {
         if (evidence) {
             determineNextQuestion();
         }
-    }
-    public int getQuestionId() {
-        return this.questionId;
-    }
-
-    public int getHintCount(){
-        return this.hintCount;
-    }
-
-    public void incrQuestion() {
-        this.questionId += 1;
-    }
-
-    public void incrHintCount() {
-        this.hintCount += 1;
-    }
-
-    public void resetHintCount() {
-        this.hintCount = 0;
     }
 
     public void refillMaterials() {
@@ -162,7 +138,7 @@ public class StudentModel implements Listener {
             boolean goodTask = true;
             if (tempTask.neededKCs != null) {
                 for (KNOWLEDGE_COMPONENTS neededKC : tempTask.neededKCs) {
-                    int idx = knowledgeComponents.indexOf(new KnowledgeComponents(neededKC));
+                    int idx = knowledgeComponents.indexOf(new KnowledgeComponents(neededKC, KC_LEVELS.get(neededKC.toString())));
                     if (idx == -1) {
                         goodTask = false;
                         break;
@@ -180,7 +156,7 @@ public class StudentModel implements Listener {
             goodTask = false;
             if (tempTask.givenKCs != null) { //added a check for null like with neededKCs cuz it was breaking.
                 for (KNOWLEDGE_COMPONENTS givenKC : tempTask.givenKCs) {
-                    int idx = knowledgeComponents.indexOf(new KnowledgeComponents(givenKC));
+                    int idx = knowledgeComponents.indexOf(new KnowledgeComponents(givenKC, KC_LEVELS.get(givenKC.toString())));
                     if (idx == -1) {
                         goodTask = true;
                         break;
