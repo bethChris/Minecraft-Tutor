@@ -1,30 +1,16 @@
 package me.bethanyaryan.brewtutor;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
-import org.bukkit.block.Sign;
-import org.bukkit.block.data.type.Leaves;
-import org.bukkit.block.sign.Side;
-import org.bukkit.block.sign.SignSide;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 public final class BrewTutor extends JavaPlugin implements Listener {
@@ -123,7 +109,6 @@ public final class BrewTutor extends JavaPlugin implements Listener {
         if (event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.BREWING_STAND) {
             // The player clicked on a brewing stand
             Player player = event.getPlayer();
-            player.sendMessage(ChatColor.GREEN + "You clicked on a brewing stand!");
 
 //            Task task = new Task(player, this.plugin);
 //            ItemStack stack = new ItemStack(Material.POTION);

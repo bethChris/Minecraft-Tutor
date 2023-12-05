@@ -3,25 +3,20 @@ package me.bethanyaryan.brewtutor;
 public class KnowledgeComponents {
     private KNOWLEDGE_COMPONENTS name = null;
     private double masteryLevel;
-    boolean[] successes = new boolean[10];
+    private final double masteryAchievedVal;
 
-    public KnowledgeComponents(KNOWLEDGE_COMPONENTS name) {
+    public KnowledgeComponents(KNOWLEDGE_COMPONENTS name, double masteryAchievedVal) {
         this.name = name;
-        this.masteryLevel = 0.25;
+        this.masteryLevel = 0.01;
+        this.masteryAchievedVal = masteryAchievedVal;
     }
 
-    public KNOWLEDGE_COMPONENTS getName() {
-        return this.name;
-    }
-
-    public double getMasteryLevel() { return this.masteryLevel; }
-
-    public boolean isMastered() { return this.masteryLevel >= 0.75; }
+    public boolean isMastered() { return this.masteryLevel >= this.masteryAchievedVal; }
 
     public void updateMastery(boolean evidence) {
         double slip = 0.1;
-        double guess = 0.1;
-        double acquisition = 0.7;
+        double guess = 0.2;
+        double acquisition = 0.6;
         double probL1;
         if (evidence) {
             probL1 = (this.masteryLevel * (1-slip)) / (this.masteryLevel * (1-slip) + (1-this.masteryLevel) * guess);

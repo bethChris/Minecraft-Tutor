@@ -4,11 +4,15 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionType;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
+
 public class Constants {
     private Constants() {
         // Restrict instantiation
     }
 
+    // All the available potion materials that will appear in the material chest
     public static final ItemStack[] MATERIALS = new ItemStack[] {
             new ItemStack(Material.GLASS_BOTTLE, 1),
             new ItemStack(Material.NETHER_WART, 1),
@@ -29,6 +33,7 @@ public class Constants {
             new ItemStack(Material.DRAGON_BREATH, 1),
             new ItemStack(Material.PHANTOM_MEMBRANE, 1)
     };
+
     // List of all the tasks that can be provided to a user in order of difficulty
     public static final Task[] TASKS = new Task[] {
             new Task(
@@ -83,6 +88,136 @@ public class Constants {
                     }
             ),
             new Task(
+                    "Create a potion of leaping",
+                    new String[][]{
+                            {
+                                    "What is the most basic potion you can make?",
+                                    "Is there a base potion you can make with nether wart?",
+                                    "First you need to start with an awkward potion",
+                                    "Place an awkward potion in one of the three bottom sections of the brewing stand"
+                            },
+                            {
+                                    "What ingredient can you add to an awkward potion to make it leaping?",
+                                    "A certain long-eared mob with mad hops may drop the needed ingredient",
+                                    "A rabbit's foot can help to create a potion of leaping",
+                                    "Place a rabbit's foot in the top section of the brewing stand"
+                            }},
+                    new PotionType[]{
+                            null,
+                            PotionType.AWKWARD
+                    },
+                    PotionType.JUMP,
+                    new KNOWLEDGE_COMPONENTS[]{
+                            KNOWLEDGE_COMPONENTS.AWKWARD
+                    },
+                    new KNOWLEDGE_COMPONENTS[]{
+                            KNOWLEDGE_COMPONENTS.LEAP
+                    }
+            ),
+            new Task(
+                    "Create a potion of healing",
+                    new String[][]{
+                            {
+                                    "What is the most basic potion you can make?",
+                                    "Is there a base potion you can make with nether wart?",
+                                    "First you need to start with an awkward potion",
+                                    "Place an awkward potion in one of the three bottom sections of the brewing stand"
+                            },
+                            {
+                                    "What ingredient can you add to an awkward potion to make it healing?",
+                                    "A fruit adorned with gold can provide the healing you seek",
+                                    "A glistering melon can help to create a potion of healing",
+                                    "Place a glistering melon in the top section of the brewing stand"
+                            }},
+                    new PotionType[]{
+                            null,
+                            PotionType.AWKWARD
+                    },
+                    PotionType.INSTANT_HEAL,
+                    new KNOWLEDGE_COMPONENTS[]{
+                            KNOWLEDGE_COMPONENTS.AWKWARD
+                    },
+                    new KNOWLEDGE_COMPONENTS[]{
+                            KNOWLEDGE_COMPONENTS.HEAL
+                    }
+            ),
+            new Task(
+                    "Create a potion of slowness",
+                    new String[][]{
+                            {
+                                    "What is the most basic potion you can make?",
+                                    "Is there a base potion you can make with nether wart?",
+                                    "First you need to start with an awkward potion",
+                                    "Place an awkward potion in one of the three bottom sections of the brewing stand"
+                            },
+                            {
+                                    "Before you create a slowness potion you need to increase your movement",
+                                    "What kind of potion helped make you more maneuverable?",
+                                    "First you must create a potion of leaping",
+                                    "What ingredient can you add to an awkward potion to make it leaping?",
+                                    "A certain long-eared mob with mad hops may drop the needed ingredient",
+                                    "A rabbit's foot can help to create a potion of leaping",
+                                    "Place a rabbit's foot in the top section of the brewing stand"
+                            },
+                            {
+                                    "What ingredient can you add to a potion of leaping to make it slowness?",
+                                    "A body part of a certain eight-legged mob need to be modified to get the needed ingredient",
+                                    "A fermented spider eye can help to create a potion of slowness",
+                                    "Place a fermented spider eye in the top section of the brewing stand"
+                            }},
+                    new PotionType[]{
+                            null,
+                            PotionType.AWKWARD,
+                            PotionType.JUMP
+                    },
+                    PotionType.SLOWNESS,
+                    new KNOWLEDGE_COMPONENTS[]{
+                            KNOWLEDGE_COMPONENTS.AWKWARD,
+                            KNOWLEDGE_COMPONENTS.LEAP
+                    },
+                    new KNOWLEDGE_COMPONENTS[]{
+                            KNOWLEDGE_COMPONENTS.SLOW
+                    }
+            ),
+            new Task(
+                    "Create a potion of harming",
+                    new String[][]{
+                            {
+                                    "What is the most basic potion you can make?",
+                                    "Is there a base potion you can make with nether wart?",
+                                    "First you need to start with an awkward potion",
+                                    "Place an awkward potion in one of the three bottom sections of the brewing stand"
+                            },
+                            {
+                                    "Before you create a harming potion you need to do the opposite",
+                                    "What kind of potion increases your health?",
+                                    "First you must create a potion of healing",
+                                    "What ingredient can you add to an awkward potion to make it healing?",
+                                    "A fruit adorned with gold can provide the healing you seek",
+                                    "A glistering melon can help to create a potion of healing",
+                                    "Place a glistering melon in the top section of the brewing stand"
+                            },
+                            {
+                                    "What ingredient can you add to a potion of healing to make it harming?",
+                                    "A body part of a certain eight-legged mob need to be modified to get the needed ingredient",
+                                    "A fermented spider eye can help to create a potion of harming",
+                                    "Place a fermented spider eye in the top section of the brewing stand"
+                            }},
+                    new PotionType[]{
+                            null,
+                            PotionType.AWKWARD,
+                            PotionType.INSTANT_HEAL
+                    },
+                    PotionType.INSTANT_DAMAGE,
+                    new KNOWLEDGE_COMPONENTS[]{
+                            KNOWLEDGE_COMPONENTS.AWKWARD,
+                            KNOWLEDGE_COMPONENTS.HEAL
+                    },
+                    new KNOWLEDGE_COMPONENTS[]{
+                            KNOWLEDGE_COMPONENTS.HARM
+                    }
+            ),
+            new Task(
                     "Congratulations, you've mastered the art of brewing!!!",
                     new String[][]{
                             {
@@ -95,13 +230,15 @@ public class Constants {
             )
     };
 
-    // TODO: I believe no longer needed, currently commented just in case we need it
-//    // Creates an ItemStack of a potion for a given potionType
-//    public static ItemStack makePotionItemStack(PotionType potionType) {
-//        ItemStack stack = new ItemStack(Material.POTION);
-//        PotionMeta thing = (PotionMeta)stack.getItemMeta();
-//        thing.setBasePotionType(potionType);
-//        stack.setItemMeta(thing);
-//        return stack;
-//    }
+    // Level of 0.6 requires only one correct submission
+    // Level of 0.95 requires two correct submissions
+    public static final Dictionary<String, Double> KC_LEVELS = new Hashtable<>();
+    static {
+        KC_LEVELS.put(KNOWLEDGE_COMPONENTS.AWKWARD.toString(), 0.60);
+        KC_LEVELS.put(KNOWLEDGE_COMPONENTS.REGEN.toString(), 0.60);
+        KC_LEVELS.put(KNOWLEDGE_COMPONENTS.LEAP.toString(), 0.95);
+        KC_LEVELS.put(KNOWLEDGE_COMPONENTS.HEAL.toString(), 0.95);
+        KC_LEVELS.put(KNOWLEDGE_COMPONENTS.SLOW.toString(), 0.95);
+        KC_LEVELS.put(KNOWLEDGE_COMPONENTS.HARM.toString(), 0.95);
+    }
 }
