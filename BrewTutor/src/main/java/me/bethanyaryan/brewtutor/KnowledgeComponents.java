@@ -5,6 +5,7 @@ public class KnowledgeComponents {
     private double masteryLevel;
     private final double masteryAchievedVal;
 
+    // The starting mastery level of each knowledge component is defaulted to 0.01
     public KnowledgeComponents(KNOWLEDGE_COMPONENTS name, double masteryAchievedVal) {
         this.name = name;
         this.masteryLevel = 0.01;

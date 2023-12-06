@@ -13,11 +13,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.Objects;
 
+// This is the main class that gets called when the plugin is started
 public final class BrewTutor extends JavaPlugin implements Listener {
 
-    public final ArrayList<Player> PlayersInTutor = new ArrayList<Player>();
-    public final ArrayList<StudentModel> SavedTutorData = new ArrayList<StudentModel>();
-    public ArrayList<StudentModel> CurrentlyInTutorData = new ArrayList<StudentModel>();
+    public final ArrayList<Player> PlayersInTutor = new ArrayList<>();
+    public final ArrayList<StudentModel> SavedTutorData = new ArrayList<>();
+    public ArrayList<StudentModel> CurrentlyInTutorData = new ArrayList<>();
     public DecisionModel decisionModel;
     public Plugin plugin;
     @Override
@@ -40,12 +41,12 @@ public final class BrewTutor extends JavaPlugin implements Listener {
         }else {
             PlayersInTutor.remove(player);
             player.sendMessage(ChatColor.DARK_RED + "BrewTutor has been disabled!");
-            //probably do something here to save the student model to our ongoing list
             end(player);
         }
     }
 
     // Gives a hint only if the player is in the tutor and their student model already exists
+    // Called when the player types the hint command
     public void toggleHint(Player player) {
         if (!inTutor(player)) { return; }
         else {
@@ -69,8 +70,10 @@ public final class BrewTutor extends JavaPlugin implements Listener {
     public boolean inTutor(Player player) {
         return PlayersInTutor.contains(player);
     }
+
+    // Called when the player runs the brewtutor command
     public void start(Player player) {
-        // if player has used the tutor before, grab their student model state from usedTutor list
+        // If player has used the tutor before, grab their student model state from usedTutor list
         boolean containsPlayer = false;
         StudentModel model = null;
 
@@ -87,15 +90,17 @@ public final class BrewTutor extends JavaPlugin implements Listener {
             SavedTutorData.add(model);
         }
 
-        //add to list, create start items, start prompt
+        // Add to list, create start items, start prompt
         CurrentlyInTutorData.add(model);
         model.createStartItems();
         model.waitingForPrompt = true;
     }
+
+    // Called when the tutor is running and the player runs the brewtutor command
     public void end(Player player){
         for (StudentModel sm : CurrentlyInTutorData) {
             if (sm.getPlayer() == player ){
-                //boop them from list, remove spawned items
+                // Delete them from list, remove spawned items
                 CurrentlyInTutorData.remove(sm);
                 sm.deleteStartItems();
                 break;
@@ -109,13 +114,6 @@ public final class BrewTutor extends JavaPlugin implements Listener {
         if (event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.BREWING_STAND) {
             // The player clicked on a brewing stand
             Player player = event.getPlayer();
-
-//            Task task = new Task(player, this.plugin);
-//            ItemStack stack = new ItemStack(Material.POTION);
-//            PotionMeta thing = (PotionMeta)stack.getItemMeta();
-//            thing.setBasePotionType(PotionType.AWKWARD);
-//            stack.setItemMeta(thing);
-//            task.checkConditionMet(stack);
         }
     }
 

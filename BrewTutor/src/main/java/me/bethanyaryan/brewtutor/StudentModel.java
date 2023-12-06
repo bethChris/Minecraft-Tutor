@@ -35,7 +35,6 @@ public class StudentModel implements Listener {
 
     }
     public Player getPlayer() {
-//        System.out.println("Called get player with student model");
         return this.player;
     }
     public String getQuestion() {
@@ -68,6 +67,7 @@ public class StudentModel implements Listener {
         }
     }
 
+    // Refill the materials in the player's chest
     public void refillMaterials() {
         this.materialChest.getInventory().clear();
         for (ItemStack material : MATERIALS){
@@ -90,7 +90,7 @@ public class StudentModel implements Listener {
         Chest submissionChest = (Chest) submissionChestBlock.getState();
         BrewingStand brewingStand = (BrewingStand) brewingStandBlock.getState();
 
-        // put a sign on the chests
+        // Put a sign on the chests
         Block materialSignBlock = materialChestBlock.getRelative(BlockFace.SOUTH);
         materialSignBlock.setType(Material.OAK_SIGN);
         Sign materialSign = (Sign) materialSignBlock.getState();
@@ -103,7 +103,7 @@ public class StudentModel implements Listener {
         submissionSign.getSide(Side.BACK).setLine(0, "Submissions");
         submissionSign.update();
 
-        //add signs first, so they'll be the first to be deleted
+        // Add signs first, so they'll be the first to be deleted
         this.itemLocations.add(materialSign.getLocation());
         this.itemLocations.add(submissionSign.getLocation());
         this.itemLocations.add(brewingStandBlock.getLocation());
@@ -127,7 +127,6 @@ public class StudentModel implements Listener {
     private void determineNextQuestion() {
         if (this.questionId == TASKS.length-1) {
             this.player.sendMessage(ChatColor.GREEN + "WOW YOU LEARNED IT ALL CONGRATULATIONS!!!");
-            //TODO: end tutor
             return;
         }
 
@@ -154,7 +153,7 @@ public class StudentModel implements Listener {
 
             // Check if knowledge components that will be learned are already mastered
             goodTask = false;
-            if (tempTask.givenKCs != null) { //added a check for null like with neededKCs cuz it was breaking.
+            if (tempTask.givenKCs != null) {
                 for (KNOWLEDGE_COMPONENTS givenKC : tempTask.givenKCs) {
                     int idx = knowledgeComponents.indexOf(new KnowledgeComponents(givenKC, KC_LEVELS.get(givenKC.toString())));
                     if (idx == -1) {
@@ -166,7 +165,7 @@ public class StudentModel implements Listener {
                         break;
                     }
                 }
-            }else{ //they've reached the end of the tutor
+            } else { // They've reached the end of the tutor
                 this.questionId = i;
                 break;
             }

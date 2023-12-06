@@ -35,6 +35,13 @@ public class Constants {
     };
 
     // List of all the tasks that can be provided to a user in order of difficulty
+    // Each task follows the template:
+    //      Prompt
+    //      Hints[Step of task player is on][Specificity of hint]
+    //      Hint Items[Item to check for to see if player is on a specific step]
+    //      Type of potion the player needs to create
+    //      The knowledge components needed to get task assigned to player
+    //      The knowledge components that the task will update for the player
     public static final Task[] TASKS = new Task[] {
             new Task(
                     "Create an awkward potion",
@@ -230,6 +237,8 @@ public class Constants {
             )
     };
 
+    // Dictionary containing the value that a knowledge component's mastery level
+    // needs to be considered mastered
     // Level of 0.6 requires only one correct submission
     // Level of 0.95 requires two correct submissions
     public static final Dictionary<String, Double> KC_LEVELS = new Hashtable<>();

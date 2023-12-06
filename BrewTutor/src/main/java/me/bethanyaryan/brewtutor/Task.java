@@ -26,18 +26,6 @@ public class Task {
     public final KNOWLEDGE_COMPONENTS[] neededKCs;
     public final KNOWLEDGE_COMPONENTS[] givenKCs;
 
-    public Task(Player player, String prompt, String[][] hints, PotionType[] hintItems, PotionType potionType, Plugin plugin, KNOWLEDGE_COMPONENTS[] neededKCs, KNOWLEDGE_COMPONENTS[] givenKCs) {
-        this.player = player;
-        this.prompt = prompt;
-        this.hints = hints;
-        this.hintItems = Arrays.asList(hintItems);
-        this.hintNums = new int[this.hints.length];
-        this.potionType = potionType;
-        this.plugin = plugin;
-        this.neededKCs = neededKCs;
-        this.givenKCs = givenKCs;
-    }
-
     // copy is a template Task created in the Constants class
     public Task(Task copy, Player player, Plugin plugin) {
         this.player = player;
@@ -65,6 +53,7 @@ public class Task {
         this.player = null;
     }
 
+    // Checks if the player's submission is correct
     // @Parameter submission : The potion the player created
     public boolean checkConditionMet(ItemStack submission) {
         if (!(submission.getType() == Material.POTION)) {
@@ -76,7 +65,7 @@ public class Task {
         assert potion != null;
         if (potion.getBasePotionType() == this.potionType) {
             this.player.sendMessage(ChatColor.DARK_PURPLE + "Witch: " + ChatColor.GREEN + "Well Done!");
-            // Currently disabled because firework damages player
+            // Disabled because firework damages player
 //            this.shootFirework();
             return true;
         } else {
@@ -86,9 +75,11 @@ public class Task {
         return false;
     }
 
+    // Determines the next hint to give to the user
     public void nextHint(ItemStack[] brewingContents) {
         int stepNum = 0;
         List<PotionType> potions = new ArrayList<>();
+        // Checks the potion in the player's brewing stand
         for (ItemStack item : brewingContents) {
             if (item == null) {
                 potions.add(null);
@@ -101,11 +92,13 @@ public class Task {
             }
         }
 
+        // If a potion in player's brewing stand is the potion required for task completion
         if (this.potionType != null && potions.contains(this.potionType)) {
             this.player.sendMessage(ChatColor.DARK_PURPLE + "Witch: " + ChatColor.AQUA + "It seems you have completed the task. Submit your potion to the chest on your left");
             return;
         }
 
+        // Get the latest hint step depending on the potions in player's brewing stand
         for (PotionType step : Lists.reverse(hintItems)) {
             if (potions.contains(step)) {
                 stepNum = hintItems.indexOf(step);
@@ -129,7 +122,7 @@ public class Task {
         fm.addEffect(FireworkEffect.builder()
                 .flicker(false)
                 .trail(true)
-                .withColor(Color.ORANGE)        // TODO: Change firework color in future
+                .withColor(Color.ORANGE)
                 .withColor(Color.BLUE)
                 .withFade(Color.BLUE)
                 .build());

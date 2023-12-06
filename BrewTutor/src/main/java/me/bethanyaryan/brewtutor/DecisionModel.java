@@ -32,12 +32,13 @@ public class DecisionModel {
                     sm.waitingForPrompt = false;
                 }
 
-                //grade submission if any
+                // Grade submission if any
                 Chest submissionChest = sm.submissionChest;
                 ItemStack[] submissionChestItems = submissionChest.getInventory().getContents();
                 ItemStack[] submission = getNonNullItems(submissionChestItems);
 
                 if (submission.length > 0){
+                    // Check if there is more than one item in the submissions chest
                     if (submission.length > 1){
                         player.sendMessage(ChatColor.DARK_PURPLE + "Witch: You have too many items in the submission chest. 1 submission at a time please.");
                     }else{
@@ -51,7 +52,7 @@ public class DecisionModel {
                     }
                 }
 
-                //refill chests with materials and brewing stand fuel
+                // Refill chests with materials and brewing stand fuel
                 Chest materialChest = sm.materialChest;
                 ItemStack[] materials = getNonNullItems(materialChest.getInventory().getContents());
                 if (materials.length < MATERIALS.length){
@@ -75,7 +76,7 @@ public class DecisionModel {
         return nonNullItems.toArray(new ItemStack[0]);
     }
 
-    //stops the async loop
+    // Stops the async loop
     public void stop(){
         scheduler.cancelTasks(plugin);
     }
