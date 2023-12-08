@@ -94,15 +94,16 @@ This tutor does not require you to supply your own brewing environment in game, 
 
 ### Supported Potions
 This tutor currently supports the learning of 6 different potions:
-	- Awkward Potion
-	- Regen Potion
-	- Potion of Leaping
-	- Potion of Healing
-	- Potion of Slowness
-	- Potion of Harming
+- Awkward Potion
+- Regen Potion
+- Potion of Leaping
+- Potion of Healing
+- Potion of Slowness
+- Potion of Harming
 
 We plan on expanding this to eventually support all possible potions.
 
-
 ## Dev Notes
 Please note that this is a work-in-progress plugin and there are quite a few features still in development. Player permissions, anti-cheat measurements and other player behavior considerations have not been added yet. 
+
+> NOTE: The tutor will not remember your progress if you disconnect from the server. However, it will remember your progress while in game. 
