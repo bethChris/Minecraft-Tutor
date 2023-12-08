@@ -27,6 +27,7 @@ public class StudentModel implements Listener {
     private Task currentTask;
     public boolean waitingForPrompt;
 
+
     public StudentModel(Player player) {
         super();
         this.player = player;
@@ -34,11 +35,13 @@ public class StudentModel implements Listener {
         this.waitingForPrompt = true;
 
     }
+
     public Player getPlayer() {
         return this.player;
     }
+
     public String getQuestion() {
-        this.currentTask = new Task(TASKS[this.questionId], this.player, null); // TODO: Do we need plugin?
+        this.currentTask = new Task(TASKS[this.questionId], this.player, null);
         return this.currentTask.toString();
     }
 
@@ -67,14 +70,16 @@ public class StudentModel implements Listener {
         }
     }
 
-    // Refill the materials in the player's chest
+    // Refill the materials in the player's chest and brewing stand
     public void refillMaterials() {
         this.materialChest.getInventory().clear();
         for (ItemStack material : MATERIALS){
             this.materialChest.getInventory().addItem(material);
         }
+        this.brewingStand.getInventory().setFuel(new ItemStack(Material.BLAZE_POWDER, 1));
     }
 
+    //creates the tutor environment objects specific to the user. Each student instance is associated with their own materials
     public void createStartItems(){
         Block brewingStandBlock = this.player.getLocation().getBlock().getRelative(BlockFace.SOUTH);
         Block materialChestBlock = brewingStandBlock.getLocation().getBlock().getRelative(BlockFace.WEST);
@@ -117,6 +122,7 @@ public class StudentModel implements Listener {
         refillMaterials();
     }
 
+    //removes the tutor environment materials from game
     public void deleteStartItems() {
         for (Location location : this.itemLocations) {
             location.getBlock().setType(Material.AIR);
@@ -190,6 +196,8 @@ public class StudentModel implements Listener {
     public String toString(){
         return this.player.getDisplayName();
     }
+
+    //stops the user from just breaking the tutor materials and walking off with them :/
     @EventHandler
     public void cancelBlockBreak(BlockBreakEvent event) {
         if (this.itemLocations.contains(event.getBlock().getLocation())) {

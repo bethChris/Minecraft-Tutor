@@ -21,6 +21,8 @@ public final class BrewTutor extends JavaPlugin implements Listener {
     public ArrayList<StudentModel> CurrentlyInTutorData = new ArrayList<>();
     public DecisionModel decisionModel;
     public Plugin plugin;
+
+
     @Override
     public void onEnable() {
         System.out.println("[BrewTutor] has been enabled!");
@@ -31,7 +33,7 @@ public final class BrewTutor extends JavaPlugin implements Listener {
         this.decisionModel = new DecisionModel(this);
         this.decisionModel.run();
     }
-    //comment
+
     //Toggles the brew tutor based on if the player is in the tutor or not already
     public void toggleBrewTutor(Player player){
         if (!inTutor(player)){
@@ -67,6 +69,7 @@ public final class BrewTutor extends JavaPlugin implements Listener {
         }
     }
 
+    //Checks if user is in tutor
     public boolean inTutor(Player player) {
         return PlayersInTutor.contains(player);
     }
@@ -108,15 +111,7 @@ public final class BrewTutor extends JavaPlugin implements Listener {
         }
     }
 
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        // Check if the clicked block is a brewing stand
-        if (event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.BREWING_STAND) {
-            // The player clicked on a brewing stand
-            Player player = event.getPlayer();
-        }
-    }
-
+    //removes player from inTutor list when they exit the game
     @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent event) {
         Player player = event.getPlayer();
@@ -124,6 +119,8 @@ public final class BrewTutor extends JavaPlugin implements Listener {
             toggleBrewTutor(event.getPlayer());
         }
     }
+
+    //stops the decision model when the plugin is disabled (when server shuts down)
     @Override
     public void onDisable() {
         System.out.println("[BrewTutor] has been disabled!");

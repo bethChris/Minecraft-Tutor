@@ -2,6 +2,7 @@ package me.bethanyaryan.brewtutor;
 
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BrewingStand;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 
 import static me.bethanyaryan.brewtutor.Constants.MATERIALS;
 
-
 public class DecisionModel {
     private final BrewTutor plugin;
     private BukkitScheduler scheduler;
@@ -21,18 +21,21 @@ public class DecisionModel {
         this.plugin = plugin;
     }
 
+    //The main decision model loop. Runs all the time and constantly checks each student's state
     public void run(){
         // With BukkitScheduler
         this.scheduler = Bukkit.getScheduler();
         scheduler.runTaskTimer(plugin, () -> {
             for (StudentModel sm : plugin.CurrentlyInTutorData){
                 Player player = sm.getPlayer();
+
+                //if waiting for new prompt still, display prompt in chat
                 if (sm.waitingForPrompt){
                     player.sendMessage(ChatColor.DARK_PURPLE + "Witch: " + ChatColor.GOLD + sm.getQuestion());
                     sm.waitingForPrompt = false;
                 }
 
-                // Grade submission if any
+                // Grade submission (if any)
                 Chest submissionChest = sm.submissionChest;
                 ItemStack[] submissionChestItems = submissionChest.getInventory().getContents();
                 ItemStack[] submission = getNonNullItems(submissionChestItems);
@@ -46,26 +49,23 @@ public class DecisionModel {
                             player.sendMessage(ChatColor.DARK_PURPLE + "Witch: Grading your submission...");
                             sm.submitTask(item);
                             submissionChest.getInventory().remove(item);
-                            break; //should only be 1
+                            break; //should only be 1 item to grade anyway
                         }
-
                     }
                 }
 
-                // Refill chests with materials and brewing stand fuel
+                // Refill materials if they're low
                 Chest materialChest = sm.materialChest;
+                BrewingStand brewingStand = sm.brewingStand;
                 ItemStack[] materials = getNonNullItems(materialChest.getInventory().getContents());
-                if (materials.length < MATERIALS.length){
+                if (materials.length < MATERIALS.length || brewingStand.getFuelLevel() < 1){
                     sm.refillMaterials();
                 }
-
-                sm.brewingStand.getInventory().setFuel(new ItemStack(Material.BLAZE_POWDER, 1));
-                //TODO: add this to student model? ^
-
             }
-        }, 20L * 10L /*<-- the initial delay */, 20L * 5L /*<-- the interval */); //TODO: adjust this time interval
+        }, 20L * 10L /*<-- the initial delay */, 20L * 5L /*<-- the interval */);
     }
 
+    //retrieves all nonnull items from a list of items (usually pulled from an inventory)
     private ItemStack[] getNonNullItems(ItemStack[] items) {
         ArrayList<ItemStack> nonNullItems = new ArrayList<>();
         for (ItemStack item : items) {
