@@ -88,14 +88,14 @@ Nothing! This tutor plugin provides you with:
 This tutor does not require you to supply your own brewing environment in game, however, we assume players utilizing this plugin have a basic knowledge of how to play Minecraft and at least a small familiarity with Minecraft materials and biomes.
 
 ### Commands
-> <code>/brewtutor:</code> toggles the BrewTutor on/off 
+> <code>/brewtutor:</code> Toggles the BrewTutor on/off 
 >
-> <code>/hint:</code> when BrewTutor is enabled, you can use this command to recieve a hint about the next step. 
+> <code>/hint:</code> When BrewTutor is enabled, you can use this command to recieve a hint about the next step. 
 
 ### Supported Potions
 This tutor currently supports the learning of 6 different potions:
 - Awkward Potion
-- Regen Potion
+- Potion of Regeneration
 - Potion of Leaping
 - Potion of Healing
 - Potion of Slowness
